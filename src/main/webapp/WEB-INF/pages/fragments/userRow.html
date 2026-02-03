@@ -1,0 +1,8 @@
+<tr th:fragment="userRow(user)" th:id="'user-' + ${user.id}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.name}"></td>
+    <td th:text="${user.lastName}"></td>
+    <td th:text="${user.age}"></td>
+    <td><button class="btn btn-sm btn-warning">✏️</button></td>
+    <td><button class="btn btn-sm btn-danger" th:onclick="'deleteUser(' + ${user.id} + ')'">🗑️</button></td>
+</tr>
