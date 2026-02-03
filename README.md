@@ -1,0 +1,1 @@
+![Иллюстрация к проекту](https://raw.githubusercontent.com/AndreyLev/pp-2-3-1/refs/heads/main/CRUD.jpg)
