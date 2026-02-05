@@ -99,7 +99,6 @@
           <version>6.2.5.Final</version>  <!-- под Spring 5.x -->
       </dependency>
 
-
   </dependencies>
     <build>
         <pluginManagement>

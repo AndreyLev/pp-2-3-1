@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
-import web.dto.UserDto;
 import web.model.User;
 
 import java.util.List;
@@ -30,23 +29,23 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> getUserById(long id) {
+    public Optional<User> getUserById(Long id) {
         return userDao.findById(id);
     }
     
     @Override
     @Transactional
-    public void saveUser(UserDto userDto) {
-        User user = new User(userDto.getName(), userDto.getLastName(), userDto.getAge());
+    public long addUser(String name, String lastName, Byte age) {
+        User user = new User(name, lastName, age);
         userDao.saveUser(user);
-        userDto.setId(user.getId());
         
         logger.info("Пользователь {} сохранен в БД", user);
+        return user.getId();
     }
     
     @Override
     @Transactional
-    public void removeUserById(long id) {
+    public void removeUserById(Long id) {
         userDao.removeUserById(id);
         
         logger.info("Пользователь с id = {} удален из БД", id);
@@ -54,10 +53,11 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional
-    public void updateUser(UserDto userDto) {
-        Optional<User> user = getUserById(userDto.getId());
+    public void updateUser(Long id, String name, String lastName, Byte age) {
+        Optional<User> user = getUserById(id);
         user.ifPresent(u -> userDao.updateUser(u));
-        logger.info("Пользователь с id = {} обновлен", userDto.getId());
+        
+        logger.info("Пользователь с id = {} обновлен", id);
     }
     
 }

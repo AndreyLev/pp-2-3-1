@@ -6,11 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import web.dto.UserDto;
+import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
@@ -42,21 +38,19 @@ public class UserController {
     }
     
     @PostMapping("/add")
-    public String saveUser(
-        @RequestParam @NonNull String name,
-        @RequestParam @NonNull String lastName,
-        @RequestParam @NonNull Byte age,
-        Model model)
+    public String saveUser(@RequestParam @NonNull String name,
+                           @RequestParam @NonNull String lastName,
+                           @RequestParam @NonNull Byte age,
+                           Model model)
     {
         logger.info("Пришел запрос на сохранение пользователя");
-        logger.info("Параметры: name = {}, lastName = {}, age = {}", name, lastName, age);
+        logger.info("Параметры | name={}, last_name={}, age={}", name, lastName, age);
         
-        UserDto userDto = new UserDto(name, lastName, age);
-        userService.saveUser(userDto);
+        long id = userService.addUser(name, lastName, age);
         
-        logger.info("User после сохранения = {}", userDto);
+        logger.info("ID добавленного пользователя: {}", id);
         
-        model.addAttribute("user", userDto);
+        model.addAttribute("user", id);
         return "fragments/userRow :: userRow";
     }
     
@@ -77,11 +71,9 @@ public class UserController {
         @RequestParam Byte age)
     {
         logger.info("Пришел запрос на обновление пользователя");
-        logger.info("Параметры: name = {}, lastName = {}, age = {}", name, lastName, age);
+        logger.info("Параметры: id = {}, name = {}, lastName = {}, age = {}", id, name, lastName, age);
         
-        UserDto userDto = new UserDto(name, lastName, age);
-        userDto.setId(id);
-        userService.updateUser(userDto);
+        userService.updateUser(id, name, lastName, age);
         
         return ResponseEntity.ok().build();
     }
