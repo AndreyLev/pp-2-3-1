@@ -1,7 +1,6 @@
 package web.controller;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ public class UserController {
     
     private UserService userService;
     
-    public UserController(@Qualifier("userService") UserService userService, Logger logger) {
+    public UserController(UserService userService, Logger logger) {
         this.userService = userService;
         this.logger = logger;
     }

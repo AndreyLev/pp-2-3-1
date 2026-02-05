@@ -1,7 +1,6 @@
 package web.service;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
@@ -10,13 +9,13 @@ import web.model.User;
 import java.util.List;
 import java.util.Optional;
 
-@Service(value = "userService")
+@Service
 public class UserServiceImpl implements UserService {
     
     private Logger logger;
     private UserDao userDao;
     
-    public UserServiceImpl(@Qualifier("userDao") UserDao userDao, Logger logger) {
+    public UserServiceImpl(UserDao userDao, Logger logger) {
         this.userDao = userDao;
         this.logger = logger;
     }

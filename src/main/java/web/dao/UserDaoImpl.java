@@ -1,7 +1,7 @@
 package web.dao;
 
 import org.slf4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import web.model.User;
 
 import javax.persistence.EntityManager;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Component(value = "userDao")
+@Repository
 public class UserDaoImpl implements UserDao {
     
     @PersistenceContext
