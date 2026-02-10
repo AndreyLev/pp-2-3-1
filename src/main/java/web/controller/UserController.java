@@ -6,9 +6,13 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import web.dto.AddUserRequestDto;
+import web.dto.AddUserResponseDto;
+import web.dto.UpdateUserRequestDto;
 import web.model.User;
 import web.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,7 +29,8 @@ public class UserController {
     }
     
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model)
+    {
         logger.info("Пришел запрос на получение всех пользователей");
         
         List<User> users = userService.getAllUsers();
@@ -37,24 +42,22 @@ public class UserController {
     }
     
     @PostMapping("/add")
-    public String saveUser(@RequestParam @NonNull String name,
-                           @RequestParam @NonNull String lastName,
-                           @RequestParam @NonNull Byte age,
-                           Model model)
+    public String addUser(@Valid @RequestBody AddUserRequestDto requestDto, Model model)
     {
         logger.info("Пришел запрос на сохранение пользователя");
-        logger.info("Параметры | name={}, last_name={}, age={}", name, lastName, age);
+        logger.info("Параметры | {}", requestDto);
         
-        long id = userService.addUser(name, lastName, age);
+        AddUserResponseDto responseDto = userService.addUser(requestDto);
         
-        logger.info("ID добавленного пользователя: {}", id);
+        logger.info("ID добавленного пользователя: {}", responseDto.getId());
         
-        model.addAttribute("user", id);
+        model.addAttribute("user", responseDto);
         return "fragments/userRow :: userRow";
     }
     
     @PostMapping("/remove")
-    public ResponseEntity removeUser(@RequestParam Long id) {
+    public ResponseEntity removeUser(@RequestParam @NonNull Long id)
+    {
         logger.info("Пришел запрос на удаление пользователя с id = {}", id);
         
         userService.removeUserById(id);
@@ -63,16 +66,12 @@ public class UserController {
     }
     
     @PostMapping("/update")
-    public ResponseEntity updateUser(
-        @RequestParam Long id,
-        @RequestParam String name,
-        @RequestParam String lastName,
-        @RequestParam Byte age)
+    public ResponseEntity updateUser(@Valid @RequestBody UpdateUserRequestDto requestDto)
     {
         logger.info("Пришел запрос на обновление пользователя");
-        logger.info("Параметры: id = {}, name = {}, lastName = {}, age = {}", id, name, lastName, age);
+        logger.info("Параметры: {}", requestDto);
         
-        userService.updateUser(id, name, lastName, age);
+        userService.updateUser(requestDto);
         
         return ResponseEntity.ok().build();
     }
