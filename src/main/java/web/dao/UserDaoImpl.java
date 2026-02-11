@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao {
     
     @PersistenceContext
     private EntityManager entityManager;
-    private Logger logger;
+    private final Logger logger;
     
     public UserDaoImpl(Logger logger) {
         this.logger = logger;

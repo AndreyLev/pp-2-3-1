@@ -19,9 +19,9 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     
-    private Logger logger;
+    private final Logger logger;
     
-    private UserService userService;
+    private final UserService userService;
     
     public UserController(UserService userService, Logger logger) {
         this.userService = userService;

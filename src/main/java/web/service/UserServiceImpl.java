@@ -16,8 +16,8 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     
-    private Logger logger;
-    private UserDao userDao;
+    private final Logger logger;
+    private final UserDao userDao;
     
     public UserServiceImpl(UserDao userDao, Logger logger) {
         this.userDao = userDao;
